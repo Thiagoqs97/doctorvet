@@ -29,7 +29,7 @@ const PetSystemFinance: React.FC<FinanceViewProps> = ({ financeMetrics }) => {
                 </button>
              ))}
           </div>
-          <div className="flex items-center space-x-2 bg-white px-3 py-2 rounded-lg border border-slate-200 text-slate-600 text-sm font-medium ml-auto">
+          <div className="flex items-center justify-center space-x-2 bg-white px-3 py-2 rounded-lg border border-slate-200 text-slate-600 text-sm font-medium w-full md:w-auto md:ml-auto">
              <CalendarRange size={16} />
              <span>Período Geral</span>
           </div>

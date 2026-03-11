@@ -38,13 +38,13 @@ const PetSystemKanban: React.FC<KanbanViewProps> = ({
   return (
    <div className="h-full flex flex-col animate-fadeIn">
       {/* Date Filter Toolbar for Kanban */}
-      <div className="mb-4 flex items-center space-x-4 bg-white p-3 rounded-xl border border-slate-100">
+      <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 bg-white p-3 rounded-xl border border-slate-100">
          <span className="font-bold text-slate-600 text-sm">Visualizando Kanban de:</span>
          <input 
            type="date" 
            value={selectedDate} 
            onChange={(e) => setSelectedDate(e.target.value)}
-           className="border border-slate-300 rounded-lg p-2 text-sm text-slate-700 font-bold outline-none focus:border-rose-500"
+           className="w-full sm:w-auto border border-slate-300 rounded-lg p-2 text-sm text-slate-700 font-bold outline-none focus:border-rose-500"
          />
       </div>
 

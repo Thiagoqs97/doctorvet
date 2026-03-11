@@ -57,7 +57,7 @@ const PetSystemClients: React.FC<ClientsViewProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="bg-white p-2 rounded-xl border border-slate-100 shadow-sm flex items-center flex-1">
           <Search className="text-slate-400 ml-3 mr-3" size={20} />
           <input 
@@ -80,7 +80,7 @@ const PetSystemClients: React.FC<ClientsViewProps> = ({
           />
           <button 
              onClick={() => fileInputRef.current?.click()}
-             className="h-full px-4 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition flex items-center shadow-sm"
+             className="w-full sm:w-auto h-full px-4 py-2 sm:py-0 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition flex items-center justify-center shadow-sm"
              title="Importar CSV"
           >
              <Upload size={18} className="mr-2 text-brand-600"/> Importar
@@ -109,8 +109,8 @@ const PetSystemClients: React.FC<ClientsViewProps> = ({
                    onClick={() => onSelectClient(client)}
                    className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
                  
-                 <div className="flex justify-between items-start mb-4 gap-2">
-                     <div className="flex items-center space-x-3 overflow-hidden">
+                 <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-3 sm:gap-2">
+                     <div className="flex items-center space-x-3 overflow-hidden w-full sm:w-auto">
                          <div className="w-12 h-12 shrink-0 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold text-lg">
                            {client.name ? client.name.substring(0,2).toUpperCase() : '??'}
                          </div>
@@ -123,7 +123,7 @@ const PetSystemClients: React.FC<ClientsViewProps> = ({
                          </div>
                      </div>
 
-                     <div className="flex space-x-1 shrink-0">
+                     <div className="flex space-x-2 shrink-0 self-end sm:self-auto w-full sm:w-auto justify-end border-t border-slate-50 pt-3 sm:border-0 sm:pt-0">
                        <button 
                          onClick={(e) => { e.stopPropagation(); onEditClient(client); }}
                          className="p-2 bg-slate-100 text-slate-500 rounded-full hover:bg-amber-100 hover:text-amber-600 transition"
@@ -148,10 +148,10 @@ const PetSystemClients: React.FC<ClientsViewProps> = ({
                            e.stopPropagation(); 
                            onNewAppointment(client);
                          }}
-                         className="p-2 bg-rose-50 text-rose-500 rounded-full hover:bg-rose-100 hover:text-rose-600 transition"
+                         className="flex-1 sm:flex-none flex justify-center items-center px-3 py-1.5 bg-rose-50 text-rose-500 rounded-lg hover:bg-rose-100 hover:text-rose-600 transition"
                          title="Novo Agendamento"
                        >
-                          <Calendar size={16} />
+                          <Calendar size={16} className="mr-2" /> Agendar
                        </button>
                      </div>
                  </div>

@@ -100,18 +100,18 @@ const PetSystemGrooming: React.FC<GroomingViewProps> = ({
               </div>
 
               {/* Content Column */}
-              <div className="flex-1 p-4 flex items-center justify-between">
+              <div className="flex-1 p-3 sm:p-4 flex flex-col justify-center">
                 {slot.status === 'Almoço' ? (
                    <div className="flex items-center justify-center w-full text-slate-400 italic">
                       <Coffee size={18} className="mr-2"/> Intervalo de Almoço
                    </div>
                 ) : slot.status === 'Livre' ? (
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-3 sm:gap-0">
                     <div className="flex items-center text-slate-400">
                        <span className="bg-rose-50 text-rose-500 text-xs font-bold px-2 py-1 rounded mr-3">{slot.professional}</span>
                        <span className="text-sm italic">Horário livre</span>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 w-full sm:w-auto">
                       <button 
                          onClick={() => onBlock(slot.professional, slot.time)}
                          className="text-xs font-bold text-slate-500 hover:bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 transition-colors"
@@ -120,28 +120,28 @@ const PetSystemGrooming: React.FC<GroomingViewProps> = ({
                       </button>
                       <button 
                          onClick={() => onManualAppointment(slot.professional, slot.time)}
-                         className="text-xs font-bold text-rose-500 hover:bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 transition-colors"
+                         className="text-xs font-bold text-rose-500 hover:bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 transition-colors flex-1 sm:flex-none text-center"
                       >
                         + Agendar
                       </button>
                     </div>
                   </div>
                 ) : slot.status === 'Bloqueado' ? (
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-2 sm:gap-0">
                      <span className="text-slate-500 text-sm font-medium italic animate-pulse">Horário bloqueado</span>
                      <button onClick={() => onDelete(slot.id)} className="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition" title="Desbloquear">
                        <Ban size={18} />
                      </button>
                   </div>
                 ) : (
-                  <div className="flex-1 flex justify-between items-center">
-                     <div>
-                        <div className="flex items-center space-x-2 mb-1">
+                  <div className="flex-1 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                     <div className="w-full sm:w-auto">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
                            <span className="bg-rose-100 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded uppercase">{slot.professional}</span>
                            <h4 className="font-bold text-slate-800 text-lg">{slot.pet}</h4>
                            <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200 font-medium">{slot.service}</span>
                         </div>
-                        <div className="flex items-center space-x-4 text-sm text-slate-500">
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
                            <span className="flex items-center"><User size={14} className="mr-1"/> {slot.tutor}</span>
                            <span className="flex items-center"><Phone size={14} className="mr-1"/> {slot.phone}</span>
                         </div>
@@ -149,7 +149,7 @@ const PetSystemGrooming: React.FC<GroomingViewProps> = ({
                      
                      {/* Actions */}
                      {slot.status !== 'Finalizado' && (
-                       <div className="flex space-x-2">
+                       <div className="flex flex-wrap gap-2 w-full sm:w-auto mt-2 sm:mt-0">
                           {slot.status === 'Agendado' && (
                             <button onClick={() => onStatusChange(slot.id, 'Confirmado')} className="p-2 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 transition" title="Confirmar Presença">
                               <Check size={18} />

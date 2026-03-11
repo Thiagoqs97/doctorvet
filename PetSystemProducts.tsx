@@ -36,7 +36,7 @@ const PetSystemProducts: React.FC<ProductsViewProps> = ({
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Search Bar & Actions */}
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="bg-white p-2 rounded-xl border border-slate-100 shadow-sm flex items-center flex-1">
           <Search className="text-slate-400 ml-3 mr-3" size={20} />
           <input 
@@ -59,7 +59,7 @@ const PetSystemProducts: React.FC<ProductsViewProps> = ({
           />
           <button 
              onClick={() => fileInputRef.current?.click()}
-             className="h-full px-4 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition flex items-center shadow-sm"
+             className="w-full sm:w-auto h-full px-4 py-2 sm:py-0 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition flex items-center justify-center shadow-sm"
              title="Importar CSV (Serviço, Unidade, Preço)"
           >
              <Upload size={18} className="mr-2 text-amber-600"/> Importar
