@@ -386,14 +386,8 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
   };
 
   const toggleBehavior = (index: number, tag: string) => {
-    const currentTags = newClient.pets[index].behavior || [];
-    let newTags;
-    if (currentTags.includes(tag)) newTags = currentTags.filter((t: string) => t !== tag);
-    else newTags = [...currentTags, tag];
-    updatePetField(index, 'behavior', newTags);
+    // Mantido apenas para compatibilidade, substituiremos por updatePetField direto
   };
-  
-  const behaviorOptions = ['Dócil', 'Bravo', 'Agitado', 'Reativo', 'Morde', 'Ansioso', 'Medroso', 'Sociável', 'Carente'];
 
   const handleSaveClient = async () => {
      if (editingId) {
@@ -1145,24 +1139,15 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
                               </div>
                            </div>
 
-                           {/* Behavior Tags */}
+                           {/* Behavior Area */}
                            <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-2">Comportamento</label>
-                              <div className="flex flex-wrap gap-2">
-                                 {behaviorOptions.map(tag => (
-                                    <button 
-                                      key={tag}
-                                      onClick={() => toggleBehavior(index, tag)}
-                                      className={`px-3 py-1 rounded-full text-xs font-bold border transition-all ${
-                                         pet.behavior.includes(tag) 
-                                           ? 'bg-amber-100 border-amber-300 text-amber-700' 
-                                           : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
-                                      }`}
-                                    >
-                                       {tag}
-                                    </button>
-                                 ))}
-                              </div>
+                              <label className="block text-xs font-bold text-slate-500 mb-2">Comportamento do Pet</label>
+                              <textarea 
+                                 placeholder="Descreva o comportamento (ex: É reativo com outros cães, medroso com barulho, sociável com gatos...)" 
+                                 className="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none focus:border-amber-400 min-h-[60px]"
+                                 value={pet.behavior.join(', ')}
+                                 onChange={(e) => updatePetField(index, 'behavior', [e.target.value])}
+                              ></textarea>
                            </div>
 
                            {/* Alert & Obs */}
