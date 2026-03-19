@@ -165,7 +165,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
     email: '',
     address: '',
     pets: [
-      { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', birth_date: '', behavior: [] as string[], medical: '', obs: '', image: null as string | null }
+      { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [] as string[], medical: '', obs: '', image: null as string | null }
     ]
   });
 
@@ -370,7 +370,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
   const addPetToForm = () => {
     setNewClient({
       ...newClient,
-      pets: [...newClient.pets, { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', birth_date: '', behavior: [], medical: '', obs: '', image: null }]
+      pets: [...newClient.pets, { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]
     });
   };
 
@@ -393,7 +393,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
     updatePetField(index, 'behavior', newTags);
   };
   
-  const behaviorOptions = ['Dócil', 'Bravo', 'Agitado', 'Medroso', 'Sociável', 'Carente'];
+  const behaviorOptions = ['Dócil', 'Bravo', 'Agitado', 'Reativo', 'Morde', 'Ansioso', 'Medroso', 'Sociável', 'Carente'];
 
   const handleSaveClient = async () => {
      if (editingId) {
@@ -407,7 +407,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
      loadClients(clientPage, clientSearchTerm);
      setIsAddClientModalOpen(false);
      setEditingId(null);
-     setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
+     setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
   };
 
   const handleEditClient = (client: PetClient) => {
@@ -425,6 +425,8 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
               age: p.age,
               weight: p.weight || '',
               gender: p.gender || 'Macho',
+              is_neutered: p.is_neutered || false,
+              vaccines_up_to_date: p.vaccines_up_to_date || false,
               birth_date: p.birth_date || '',
               behavior: p.behavior || [], 
               medical: p.medical_notes || '',
@@ -438,7 +440,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
 
   const openNewClientModal = () => {
       setEditingId(null);
-      setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
+      setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
       setIsAddClientModalOpen(true);
   };
 
@@ -1108,6 +1110,28 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
                                  >
                                     <option>Macho</option>
                                     <option>Fêmea</option>
+                                 </select>
+                              </div>
+                              <div>
+                                 <label className="block text-xs font-bold text-slate-500 mb-1">Castrado(a)?</label>
+                                 <select 
+                                    className="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none focus:border-amber-400 bg-white"
+                                    value={pet.is_neutered ? 'Sim' : 'Não'}
+                                    onChange={(e) => updatePetField(index, 'is_neutered', e.target.value === 'Sim')}
+                                 >
+                                    <option>Não</option>
+                                    <option>Sim</option>
+                                 </select>
+                              </div>
+                              <div>
+                                 <label className="block text-xs font-bold text-slate-500 mb-1">Vacinas em Dia?</label>
+                                 <select 
+                                    className="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none focus:border-rose-400 bg-white outline-rose-200"
+                                    value={pet.vaccines_up_to_date ? 'Sim' : 'Não'}
+                                    onChange={(e) => updatePetField(index, 'vaccines_up_to_date', e.target.value === 'Sim')}
+                                 >
+                                    <option>Não</option>
+                                    <option>Sim</option>
                                  </select>
                               </div>
                               <div>

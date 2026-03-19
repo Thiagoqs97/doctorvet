@@ -40,6 +40,8 @@ CREATE TABLE IF NOT EXISTS pets (
   image_url TEXT,
   obs TEXT,
   gender TEXT,
+  is_neutered BOOLEAN DEFAULT FALSE,
+  vaccines_up_to_date BOOLEAN DEFAULT FALSE,
   birth_date TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
 );

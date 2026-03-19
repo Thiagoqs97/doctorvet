@@ -72,6 +72,8 @@ export const getClients = async (
       obs: (p.obs as string) || '',
       image: p.image_url as string,
       gender: p.gender as string,
+      is_neutered: p.is_neutered as boolean,
+      vaccines_up_to_date: p.vaccines_up_to_date as boolean,
       birth_date: p.birth_date as string
     })) : [],
     history: []
@@ -360,6 +362,8 @@ export const createClient = async (clientData: ClientFormData): Promise<boolean>
       behavior_tags: p.behavior,
       obs: p.obs,
       gender: p.gender,
+      is_neutered: p.is_neutered || false,
+      vaccines_up_to_date: p.vaccines_up_to_date || false,
       birth_date: p.birth_date
     }));
 
@@ -419,6 +423,8 @@ export const updateClient = async (clientId: number, clientData: ClientFormData)
             behavior_tags: p.behavior,
             obs: p.obs,
             gender: p.gender,
+            is_neutered: p.is_neutered || false,
+            vaccines_up_to_date: p.vaccines_up_to_date || false,
             birth_date: p.birth_date
         };
 
