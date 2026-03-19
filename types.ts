@@ -20,7 +20,7 @@ export interface Pet {
   obs?: string;
   image?: string | null;
   gender?: string;
-  is_neutered?: boolean;
+  has_fleas_ticks?: boolean;
   vaccines_up_to_date?: boolean;
   birth_date?: string;
 }
@@ -177,7 +177,7 @@ export interface PetFormData {
   age: string;
   weight: string;
   gender: string;
-  is_neutered: boolean;
+  has_fleas_ticks: boolean;
   vaccines_up_to_date: boolean;
   birth_date: string;
   behavior: string[];

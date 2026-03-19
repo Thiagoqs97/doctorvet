@@ -80,7 +80,7 @@ BEGIN
                                 'idade', p.age,
                                 'peso', p.weight,
                                 'sexo', p.gender,
-                                'castrado', p.is_neutered,
+                                'pulgas_carrapatos', p.has_fleas_ticks,
                                 'vacinas_em_dia', p.vaccines_up_to_date,
                                 'data_nascimento', p.birth_date,
                                 'notas_medicas', p.medical_notes,

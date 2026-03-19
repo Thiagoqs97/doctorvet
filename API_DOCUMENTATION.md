@@ -221,6 +221,8 @@ curl -X DELETE \
 | `breed` | TEXT | Raça |
 | `age` | TEXT | Idade |
 | `weight` | TEXT | Peso |
+| `has_fleas_ticks` | BOOLEAN | Tem pulgas ou carrapatos? |
+| `vaccines_up_to_date` | BOOLEAN | Vacinas estão em dia? |
 | `medical_notes` | TEXT | Notas médicas |
 | `behavior_tags` | TEXT[] | Tags: `["Dócil", "Agitado"]` |
 | `image_url` | TEXT | URL da foto |
@@ -254,6 +256,8 @@ curl -X POST \
     "breed": "Labrador",
     "age": "3 anos",
     "weight": "28kg",
+    "has_fleas_ticks": false,
+    "vaccines_up_to_date": true,
     "medical_notes": "Alérgico a carrapato",
     "behavior_tags": ["Dócil", "Brincalhão"],
     "gender": "Macho",
@@ -696,6 +700,8 @@ curl -X POST "${SUPABASE_URL}/rest/v1/rpc/buscar_cliente_por_telefone" \
           "idade": "3 anos",
           "peso": "28kg",
           "sexo": "Macho",
+          "pulgas_carrapatos": false,
+          "vacinas_em_dia": true,
           "data_nascimento": "2023-05-10",
           "notas_medicas": "Alérgico a carrapato",
           "comportamento": ["Dócil", "Brincalhão"],

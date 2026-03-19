@@ -165,7 +165,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
     email: '',
     address: '',
     pets: [
-      { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [] as string[], medical: '', obs: '', image: null as string | null }
+      { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [] as string[], medical: '', obs: '', image: null as string | null }
     ]
   });
 
@@ -370,7 +370,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
   const addPetToForm = () => {
     setNewClient({
       ...newClient,
-      pets: [...newClient.pets, { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]
+      pets: [...newClient.pets, { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]
     });
   };
 
@@ -401,7 +401,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
      loadClients(clientPage, clientSearchTerm);
      setIsAddClientModalOpen(false);
      setEditingId(null);
-     setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
+     setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
   };
 
   const handleEditClient = (client: PetClient) => {
@@ -419,7 +419,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
               age: p.age,
               weight: p.weight || '',
               gender: p.gender || 'Macho',
-              is_neutered: p.is_neutered || false,
+              has_fleas_ticks: p.has_fleas_ticks || false,
               vaccines_up_to_date: p.vaccines_up_to_date || false,
               birth_date: p.birth_date || '',
               behavior: p.behavior || [], 
@@ -434,7 +434,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
 
   const openNewClientModal = () => {
       setEditingId(null);
-      setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', is_neutered: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
+      setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
       setIsAddClientModalOpen(true);
   };
 
@@ -1107,11 +1107,11 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
                                  </select>
                               </div>
                               <div>
-                                 <label className="block text-xs font-bold text-slate-500 mb-1">Castrado(a)?</label>
+                                 <label className="block text-xs font-bold text-slate-500 mb-1">Pulgas/Carrapatos?</label>
                                  <select 
-                                    className="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none focus:border-amber-400 bg-white"
-                                    value={pet.is_neutered ? 'Sim' : 'Não'}
-                                    onChange={(e) => updatePetField(index, 'is_neutered', e.target.value === 'Sim')}
+                                    className="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none focus:border-rose-400 bg-white"
+                                    value={pet.has_fleas_ticks ? 'Sim' : 'Não'}
+                                    onChange={(e) => updatePetField(index, 'has_fleas_ticks', e.target.value === 'Sim')}
                                  >
                                     <option>Não</option>
                                     <option>Sim</option>
