@@ -116,8 +116,11 @@ curl -X DELETE \
 | `id` | SERIAL | ID auto-incremento |
 | `name` | TEXT | Nome do tutor |
 | `phone` | TEXT | Telefone |
+| `cpf` | TEXT | CPF do tutor |
+| `birth_date` | TEXT | Data de nascimento do tutor |
 | `email` | TEXT | E-mail |
 | `address` | TEXT | Endereço |
+| `cep` | TEXT | CEP |
 | `created_at` | TIMESTAMPTZ | Data de criação (auto) |
 
 ### Listar todos os clientes (com paginação)
@@ -163,8 +166,11 @@ curl -X POST \
   -d '{
     "name": "João Silva",
     "phone": "11999887766",
+    "cpf": "123.456.789-00",
+    "birth_date": "1990-01-01",
     "email": "joao@email.com",
-    "address": "Rua das Flores, 123"
+    "address": "Rua das Flores, 123",
+    "cep": "00000-000"
   }'
 ```
 
@@ -174,8 +180,11 @@ curl -X POST \
   "id": 42,
   "name": "João Silva",
   "phone": "11999887766",
+  "cpf": "123.456.789-00",
+  "birth_date": "1990-01-01",
   "email": "joao@email.com",
   "address": "Rua das Flores, 123",
+  "cep": "00000-000",
   "created_at": "2026-03-15T13:00:00+00:00"
 }]
 ```
@@ -689,6 +698,9 @@ curl -X POST "${SUPABASE_URL}/rest/v1/rpc/buscar_cliente_por_telefone" \
         "telefone": "11999887766",
         "email": "joao@email.com",
         "endereco": "Rua das Flores, 123",
+        "cpf": "123.456.789-00",
+        "data_nascimento": "1990-01-01",
+        "cep": "00000-000",
         "cadastrado_em": "2026-03-15T13:00:00+00:00"
       },
       "pets": [

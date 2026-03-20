@@ -805,18 +805,18 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
         {selectedClient && (
           <div className="space-y-6">
             {/* Header Profile */}
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold text-2xl">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm relative">
+              <div className="w-16 h-16 shrink-0 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold text-2xl">
                 {selectedClient.name.split(' ').map(n => n[0]).join('').slice(0,2)}
               </div>
-              <div>
+              <div className="flex-1">
                 <h2 className="text-xl font-bold text-slate-800">{selectedClient.name}</h2>
-                <div className="space-y-1 mt-1">
-                   <div className="flex items-center text-sm text-slate-600"><Phone size={14} className="mr-2"/> {selectedClient.phone}</div>
-                   {selectedClient.cpf && <div className="flex items-center text-sm text-slate-600"><User size={14} className="mr-2"/> CPF: {selectedClient.cpf}</div>}
-                   {selectedClient.birth_date && <div className="flex items-center text-sm text-slate-600"><Calendar size={14} className="mr-2"/> Nasc: {selectedClient.birth_date.split('-').reverse().join('/')}</div>}
-                   <div className="flex items-center text-sm text-slate-600"><Mail size={14} className="mr-2"/> {selectedClient.email}</div>
-                   <div className="flex items-center text-sm text-slate-600"><MapPin size={14} className="mr-2"/> {selectedClient.address} {selectedClient.cep ? ` - CEP: ${selectedClient.cep}` : ''}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mt-2">
+                   <div className="flex items-center text-sm text-slate-600"><Phone size={14} className="mr-2 text-slate-400 shrink-0"/> {selectedClient.phone || 'Sem telefone'}</div>
+                   <div className="flex items-center text-sm text-slate-600"><User size={14} className="mr-2 text-slate-400 shrink-0"/> {selectedClient.cpf ? `CPF: ${selectedClient.cpf}` : 'CPF não informado'}</div>
+                   <div className="flex items-center text-sm text-slate-600"><Calendar size={14} className="mr-2 text-slate-400 shrink-0"/> {selectedClient.birth_date ? `Nasc: ${selectedClient.birth_date.split('-').reverse().join('/')}` : 'Nascimento não informado'}</div>
+                   <div className="flex items-center text-sm text-slate-600"><Mail size={14} className="mr-2 text-slate-400 shrink-0"/> {selectedClient.email || 'Email não informado'}</div>
+                   <div className="flex items-center text-sm text-slate-600 sm:col-span-2 pt-1 border-t border-slate-50 mt-1"><MapPin size={14} className="mr-2 text-slate-400 shrink-0"/> {selectedClient.address || 'Endereço não informado'} {selectedClient.cep ? ` - CEP: ${selectedClient.cep}` : ''}</div>
                 </div>
               </div>
             </div>
@@ -824,21 +824,65 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
             {/* Pets Section */}
             <div>
               <h4 className="font-bold text-slate-800 mb-3 flex items-center"><PawPrint size={18} className="mr-2 text-rose-500"/> Meus Pets</h4>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                  {selectedClient.pets.map((pet, idx) => (
-                   <div key={idx} className="bg-slate-50 border border-slate-100 p-3 rounded-xl flex justify-between items-center">
-                      <div className="flex items-center space-x-3">
-                         <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-slate-200 shadow-sm">
-                           <Bone size={16} className="text-slate-400"/>
+                   <div key={idx} className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col space-y-3 shadow-sm">
+                      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                         <div className="flex items-center space-x-3 w-full">
+                            <div className="w-12 h-12 bg-rose-50 rounded-full flex items-center justify-center border border-rose-100 shadow-sm shrink-0">
+                              <Bone size={20} className="text-rose-400"/>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                               <p className="font-bold text-slate-800 break-words">{pet.name || 'Sem nome'}</p>
+                               <p className="text-xs text-slate-500 font-medium">{pet.type || 'Espécie?'} • {pet.breed || 'SRD'}</p>
+                               <div className="flex flex-wrap gap-1 mt-1.5">
+                                  {pet.gender && <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-bold border border-slate-200">{pet.gender}</span>}
+                                  {pet.weight && <span className="text-[10px] bg-emerald-50 px-2 py-0.5 rounded text-emerald-700 font-bold border border-emerald-100">{pet.weight}</span>}
+                                  {pet.age && <span className="text-[10px] bg-indigo-50 px-2 py-0.5 rounded text-indigo-700 font-bold border border-indigo-100">{pet.age}</span>}
+                                  {pet.birth_date && <span className="text-[10px] bg-amber-50 px-2 py-0.5 rounded text-amber-700 font-bold border border-amber-100">Nasc: {pet.birth_date.split('-').reverse().join('/')}</span>}
+                               </div>
+                            </div>
                          </div>
-                         <div>
-                            <p className="font-bold text-slate-800 text-sm">{pet.name}</p>
-                            <p className="text-xs text-slate-500">{pet.type} • {pet.breed}</p>
+                         <div className="flex flex-row sm:flex-col gap-2 items-end shrink-0 flex-wrap">
+                            {pet.has_fleas_ticks && <span className="text-[10px] bg-rose-50 text-rose-600 font-bold px-2 py-1 rounded border border-rose-200 flex items-center"><AlertCircle size={10} className="mr-1"/> Com Pulgas/Carrapatos</span>}
+                            {pet.vaccines_up_to_date ? (
+                               <span className="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-1 rounded border border-emerald-200 flex items-center"><CheckCircle2 size={10} className="mr-1"/> Vacinas em Dia</span>
+                            ) : (
+                               <span className="text-[10px] bg-amber-50 text-amber-600 font-bold px-2 py-1 rounded border border-amber-200">Vacinas Pendentes</span>
+                            )}
                          </div>
                       </div>
-                      <div className="text-right">
-                         {pet.gender && <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold block mb-1">{pet.gender}</span>}
-                         {pet.weight && <span className="text-xs text-emerald-600 font-bold flex items-center justify-end"><Scale size={10} className="mr-1"/>{pet.weight}</span>}
+                      
+                      {/* Pet Details Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-slate-100 text-sm">
+                         {pet.behavior && pet.behavior.length > 0 && pet.behavior[0] !== "" ? (
+                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                               <p className="text-xs font-bold text-slate-500 mb-1">Comportamento</p>
+                               <p className="text-slate-700">{pet.behavior.join(', ')}</p>
+                            </div>
+                         ) : (
+                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 opacity-60">
+                               <p className="text-xs font-bold text-slate-500 mb-1">Comportamento</p>
+                               <p className="text-slate-500 italic text-xs">Não cadastrado</p>
+                            </div>
+                         )}
+
+                         {pet.medical_notes ? (
+                            <div className="bg-rose-50/50 p-3 rounded-xl border border-rose-100">
+                               <p className="text-xs font-bold text-rose-600 mb-1 flex items-center"><AlertCircle size={12} className="mr-1"/> Alertas Médicos</p>
+                               <p className="text-rose-800">{pet.medical_notes}</p>
+                            </div>
+                         ) : (
+                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 opacity-60">
+                               <p className="text-xs font-bold text-slate-500 mb-1">Alertas Médicos</p>
+                               <p className="text-slate-500 italic text-xs">Nenhum</p>
+                            </div>
+                         )}
+
+                         <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-100 md:col-span-2">
+                            <p className="text-xs font-bold text-amber-700 mb-1">Observações Gerais</p>
+                            <p className="text-amber-900">{pet.obs || <span className="italic text-amber-900/50 text-xs">Nenhuma observação</span>}</p>
+                         </div>
                       </div>
                    </div>
                  ))}
