@@ -31,6 +31,9 @@ export interface PetClient {
   phone: string;
   email: string;
   address: string;
+  cpf?: string;
+  birth_date?: string;
+  cep?: string;
   pets: Pet[];
   history: { date: string; service: string; value: string; pet: string }[];
 }
@@ -191,6 +194,9 @@ export interface ClientFormData {
   phone: string;
   email: string;
   address: string;
+  cpf?: string;
+  birth_date?: string;
+  cep?: string;
   pets: PetFormData[];
 }
 

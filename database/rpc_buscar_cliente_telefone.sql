@@ -68,6 +68,9 @@ BEGIN
                         'telefone', c.phone,
                         'email', c.email,
                         'endereco', c.address,
+                        'cpf', c.cpf,
+                        'data_nascimento', c.birth_date,
+                        'cep', c.cep,
                         'cadastrado_em', c.created_at
                     ),
                     'pets', COALESCE((

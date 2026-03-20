@@ -164,6 +164,9 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
     phone: '',
     email: '',
     address: '',
+    cpf: '',
+    birth_date: '',
+    cep: '',
     pets: [
       { id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [] as string[], medical: '', obs: '', image: null as string | null }
     ]
@@ -401,7 +404,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
      loadClients(clientPage, clientSearchTerm);
      setIsAddClientModalOpen(false);
      setEditingId(null);
-     setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
+     setNewClient({ name: '', phone: '', email: '', address: '', cpf: '', birth_date: '', cep: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
   };
 
   const handleEditClient = (client: PetClient) => {
@@ -411,6 +414,9 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
           phone: client.phone,
           email: client.email,
           address: client.address,
+          cpf: client.cpf || '',
+          birth_date: client.birth_date || '',
+          cep: client.cep || '',
           pets: client.pets.map((p, idx) => ({
               id: typeof p.id === 'number' ? p.id : Date.now() + idx,
               name: p.name,
@@ -434,7 +440,7 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
 
   const openNewClientModal = () => {
       setEditingId(null);
-      setNewClient({ name: '', phone: '', email: '', address: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
+      setNewClient({ name: '', phone: '', email: '', address: '', cpf: '', birth_date: '', cep: '', pets: [{ id: Date.now(), name: '', type: 'Cão', breed: '', age: '', weight: '', gender: 'Macho', has_fleas_ticks: false, vaccines_up_to_date: false, birth_date: '', behavior: [], medical: '', obs: '', image: null }]});
       setIsAddClientModalOpen(true);
   };
 
@@ -807,8 +813,10 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
                 <h2 className="text-xl font-bold text-slate-800">{selectedClient.name}</h2>
                 <div className="space-y-1 mt-1">
                    <div className="flex items-center text-sm text-slate-600"><Phone size={14} className="mr-2"/> {selectedClient.phone}</div>
+                   {selectedClient.cpf && <div className="flex items-center text-sm text-slate-600"><User size={14} className="mr-2"/> CPF: {selectedClient.cpf}</div>}
+                   {selectedClient.birth_date && <div className="flex items-center text-sm text-slate-600"><Calendar size={14} className="mr-2"/> Nasc: {selectedClient.birth_date.split('-').reverse().join('/')}</div>}
                    <div className="flex items-center text-sm text-slate-600"><Mail size={14} className="mr-2"/> {selectedClient.email}</div>
-                   <div className="flex items-center text-sm text-slate-600"><MapPin size={14} className="mr-2"/> {selectedClient.address}</div>
+                   <div className="flex items-center text-sm text-slate-600"><MapPin size={14} className="mr-2"/> {selectedClient.address} {selectedClient.cep ? ` - CEP: ${selectedClient.cep}` : ''}</div>
                 </div>
               </div>
             </div>
@@ -1003,6 +1011,25 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
                     />
                   </div>
                   <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">CPF</label>
+                    <input 
+                      type="text" 
+                      placeholder="000.000.000-00" 
+                      className="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all"
+                      value={newClient.cpf}
+                      onChange={(e) => setNewClient({...newClient, cpf: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Data de Nascimento</label>
+                    <input 
+                      type="date" 
+                      className="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all"
+                      value={newClient.birth_date}
+                      onChange={(e) => setNewClient({...newClient, birth_date: e.target.value})}
+                    />
+                  </div>
+                  <div>
                     <label className="block text-sm font-medium text-slate-600 mb-1">Email (Opcional)</label>
                     <input 
                       type="email" 
@@ -1013,6 +1040,16 @@ const PetSystem = ({ onLogout }: { onLogout: () => void }) => {
                     />
                   </div>
                   <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">CEP</label>
+                    <input 
+                      type="text" 
+                      placeholder="00000-000" 
+                      className="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all"
+                      value={newClient.cep}
+                      onChange={(e) => setNewClient({...newClient, cep: e.target.value})}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-slate-600 mb-1">Endereço Completo</label>
                     <input 
                       type="text" 

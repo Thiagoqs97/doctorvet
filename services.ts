@@ -59,6 +59,9 @@ export const getClients = async (
     phone: (client.phone as string) || '',
     email: (client.email as string) || '',
     address: (client.address as string) || '',
+    cpf: (client.cpf as string) || '',
+    birth_date: (client.birth_date as string) || '',
+    cep: (client.cep as string) || '',
     pets: client.pets ? (client.pets as Record<string, unknown>[]).map((p: Record<string, unknown>) => ({
       id: p.id as number | string,
       name: p.name as string,
@@ -340,7 +343,10 @@ export const createClient = async (clientData: ClientFormData): Promise<boolean>
       name: clientData.name, 
       phone: clientData.phone, 
       email: clientData.email, 
-      address: clientData.address 
+      address: clientData.address,
+      cpf: clientData.cpf,
+      birth_date: clientData.birth_date,
+      cep: clientData.cep
     }])
     .select()
     .single();
@@ -384,7 +390,10 @@ export const updateClient = async (clientId: number, clientData: ClientFormData)
             name: clientData.name,
             phone: clientData.phone,
             email: clientData.email,
-            address: clientData.address
+            address: clientData.address,
+            cpf: clientData.cpf,
+            birth_date: clientData.birth_date,
+            cep: clientData.cep
         })
         .eq('id', clientId);
 

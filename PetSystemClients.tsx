@@ -109,21 +109,21 @@ const PetSystemClients: React.FC<ClientsViewProps> = ({
                    onClick={() => onSelectClient(client)}
                    className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
                  
-                 <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-3 sm:gap-2">
-                     <div className="flex items-center space-x-3 overflow-hidden w-full sm:w-auto">
-                         <div className="w-12 h-12 shrink-0 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold text-lg">
+                 <div className="flex flex-col gap-4 mb-4">
+                     <div className="flex items-start space-x-4 w-full">
+                         <div className="w-12 h-12 shrink-0 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold text-lg mt-1">
                            {client.name ? client.name.substring(0,2).toUpperCase() : '??'}
                          </div>
-                         <div className="min-w-0 flex-1">
-                           <h3 className="font-bold text-slate-800 text-base leading-tight group-hover:text-amber-600 transition-colors line-clamp-2" title={client.name}>{client.name}</h3>
-                           <div className="flex items-center text-slate-500 text-sm mt-1">
-                             <Phone size={12} className="mr-1 shrink-0" />
-                             <span className="truncate">{client.phone}</span>
+                         <div className="flex-1 min-w-0">
+                           <h3 className="font-bold text-slate-800 text-base leading-snug group-hover:text-amber-600 transition-colors break-words">{client.name}</h3>
+                           <div className="flex items-center text-slate-500 text-sm mt-1.5">
+                             <Phone size={14} className="mr-1.5 shrink-0" />
+                             <span className="break-words font-medium">{client.phone}</span>
                            </div>
                          </div>
                      </div>
 
-                     <div className="flex space-x-2 shrink-0 self-end sm:self-auto w-full sm:w-auto justify-end border-t border-slate-50 pt-3 sm:border-0 sm:pt-0">
+                     <div className="flex space-x-2 shrink-0 self-end justify-end border-t border-slate-100 pt-3 w-full">
                        <button 
                          onClick={(e) => { e.stopPropagation(); onEditClient(client); }}
                          className="p-2 bg-slate-100 text-slate-500 rounded-full hover:bg-amber-100 hover:text-amber-600 transition"
