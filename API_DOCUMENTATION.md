@@ -992,6 +992,59 @@ O Supabase armazena datas em **UTC**. O fuso horário do Brasil (BRT) é **UTC-3
 
 ---
 
+## 🚀 Criar ou Atualizar Cadastro Completo (RPC)
+
+> **Pré-requisito:** Execute o SQL do arquivo `rpc_atualizar_ou_criar_cadastro.sql` na pasta `database/` no SQL Editor do Supabase.
+>
+> Esta função resolve automaticamente:
+> - ✅ Recebe **todos os dados** do Tutor e Pet numa pancada só.
+> - ✅ Identifica se o tutor é novo (cria) ou se já existe pelo celular (atualiza).
+> - ✅ Identifica se o pet é novo (cria) ou se já existe pelo nome e dono (atualiza).
+
+### Curl — Upsert Cliente + Pet
+
+```bash
+curl -X POST \
+  "${SUPABASE_URL}/rest/v1/rpc/atualizar_ou_criar_cadastro" \
+  -H "apikey: ${SUPABASE_KEY}" \
+  -H "Authorization: Bearer ${SUPABASE_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "p_telefone": "5511999887766",
+    "p_nome_tutor": "João Silva",
+    "p_cpf": "123.456.789-00",
+    "p_data_nascimento_tutor": "1990-01-01",
+    "p_email": "joao@email.com",
+    "p_endereco": "Rua das Flores, 123",
+    "p_cep": "00000-000",
+    "p_nome_pet": "Rex",
+    "p_especie": "Cão",
+    "p_raca": "Labrador",
+    "p_peso": "28kg",
+    "p_sexo": "Macho",
+    "p_comportamento": "Agitado, Brincalhão",
+    "p_alergias": "Nenhuma",
+    "p_pulgas": false,
+    "p_vacinas": true,
+    "p_data_nascimento_pet": "2023-05-10"
+  }'
+```
+
+### Resposta de exemplo
+
+```json
+{
+  "sucesso": true,
+  "mensagem": "Cadastro atualizado/criado com sucesso!",
+  "dados": {
+    "cliente_id": 42,
+    "pet_id": 10
+  }
+}
+```
+
+---
+
 ## 📡 Códigos de Resposta HTTP
 
 | Código | Significado |
