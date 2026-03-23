@@ -466,8 +466,8 @@ export const importClientsFromCSV = async (csvText: string): Promise<{success: n
   let successCount = 0;
   let errorCount = 0;
 
-  // 1. Agrupar pets por cliente (usando telefone ou nome como chave)
-  const clientsMap = new Map<string, { name: string; phone: string; email: string; address: string; pets: Record<string, string>[] }>();
+  // 1. Agrupar pets por cliente (usando telefone como chave principal)
+  const clientsMap = new Map<string, any>();
   
   for (let i = 1; i < lines.length; i++) {
      const line = lines[i].trim();
@@ -475,35 +475,65 @@ export const importClientsFromCSV = async (csvText: string): Promise<{success: n
 
      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
 
-     // Formato da planilha:
-     // 0: Animal - Nome, 1: Espécie, 2: Raça, 3: Nascimento, 4: Sexo
-     // 5: Cliente - Nome, 6: Email, 7: Telefones
+     // Formato da planilha atualizado (17 colunas):
+     // 0: telefone
+     // 1: nome_tutor
+     // 2: cpf
+     // 3: email
+     // 4: data_nascimento_tutor
+     // 5: endereco
+     // 6: cep
+     // 7: nome_pet
+     // 8: especie
+     // 9: raca
+     // 10: peso
+     // 11: sexo
+     // 12: data_nascimento_pet
+     // 13: comportamento
+     // 14: alergias
+     // 15: pulgas (TRUE/FALSE ou Sim/Não)
+     // 16: vacinas (TRUE/FALSE ou Sim/Não)
      
-     const petName = cols[0] || '';
-     const petSpecies = cols[1] || '';
-     const petBreed = cols[2] || '';
-     const birthRaw = cols[3] || '';
-     const petGender = cols[4] || '';
-     const clientName = cols[5] || '';
-     const clientEmail = cols[6] || '';
-     const phoneRaw = cols[7] || '';
-     
+     const phoneRaw = cols[0] || '';
      const phone = phoneRaw ? phoneRaw.replace(/\D/g, '') : '';
+     const tutorName = cols[1] || '';
+     const cpf = cols[2] || '';
+     const email = cols[3] || '';
+     const tutorBirthDate = cols[4] || '';
+     const address = cols[5] || '';
+     const cep = cols[6] || '';
+     
+     const petName = cols[7] || '';
+     const petSpecies = cols[8] || '';
+     const petBreed = cols[9] || '';
+     const petWeight = cols[10] || '';
+     const petGender = cols[11] || '';
+     const petBirthDate = cols[12] || '';
+     const behaviorRaw = cols[13] || '';
+     const petMedicalNotes = cols[14] || '';
+     const petFleasRaw = (cols[15] || '').toLowerCase();
+     const petVaccinesRaw = (cols[16] || '').toLowerCase();
 
      // Se a linha inteira estiver vazia, pula
-     if (!clientName && !phone && !petName) {
+     if (!tutorName && !phone && !petName) {
          continue;
      }
 
-     // Usa o telefone como chave primária, se não tiver, usa o nome do cliente, se não tiver, usa um ID único aleatório para não perder o pet
-     const clientKey = phone || clientName || `unknown_${Math.random()}`; 
+     const clientKey = phone || tutorName || `unknown_${Math.random()}`; 
+     
+     const behaviorTags = behaviorRaw ? behaviorRaw.split(',').map(s => s.trim()).filter(s => s.length > 0) : [];
+     const hasFleas = petFleasRaw === 'true' || petFleasRaw === 'sim' || petFleasRaw === '1';
+     const hasVaccines = petVaccinesRaw === 'true' || petVaccinesRaw === 'sim' || petVaccinesRaw === '1';
 
      if (!clientsMap.has(clientKey)) {
          clientsMap.set(clientKey, {
-             name: clientName,
+             name: tutorName,
              phone: phone,
-             email: clientEmail,
-             address: '',
+             cpf: cpf,
+             email: email,
+             birth_date: tutorBirthDate,
+             address: address,
+             cep: cep,
              pets: []
          });
      }
@@ -514,10 +544,13 @@ export const importClientsFromCSV = async (csvText: string): Promise<{success: n
              name: petName,
              species: petSpecies,
              breed: petBreed,
-             age: '', 
-             weight: '',
+             weight: petWeight,
              gender: petGender,
-             birth_date: birthRaw
+             birth_date: petBirthDate,
+             behavior_tags: behaviorTags,
+             medical_notes: petMedicalNotes,
+             has_fleas_ticks: hasFleas,
+             vaccines_up_to_date: hasVaccines
          });
      }
   }
@@ -547,7 +580,10 @@ export const importClientsFromCSV = async (csvText: string): Promise<{success: n
                       name: clientData.name, 
                       phone: clientData.phone, 
                       email: clientData.email, 
-                      address: clientData.address 
+                      address: clientData.address,
+                      cpf: clientData.cpf,
+                      birth_date: clientData.birth_date ? clientData.birth_date : null,
+                      cep: clientData.cep
                   }])
                   .select()
                   .single();
@@ -566,10 +602,13 @@ export const importClientsFromCSV = async (csvText: string): Promise<{success: n
                       name: p.name,
                       species: p.species,
                       breed: p.breed,
-                      age: p.age,
                       weight: p.weight,
                       gender: p.gender,
-                      birth_date: p.birth_date
+                      birth_date: p.birth_date ? p.birth_date : null,
+                      behavior_tags: p.behavior_tags,
+                      medical_notes: p.medical_notes,
+                      has_fleas_ticks: p.has_fleas_ticks,
+                      vaccines_up_to_date: p.vaccines_up_to_date
                   }]);
                   
                   if (petsError) {
