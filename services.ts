@@ -136,9 +136,31 @@ export const getDailySlots = async (date: string = getTodayString()): Promise<Gr
     if (data) dbAppointments = data;
   }
 
+  // Obter dia da semana da data pesquisada (0 = Domingo, 1 = Segunda, devolve index local correto)
+  const [year, month, day] = date.split('-');
+  const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+  const dayOfWeek = dateObj.getDay();
+
   professionalsList.forEach(prof => {
     workHours.forEach(time => {
-      const isLunch = time === '12:00' || time === '13:00';
+      // --- REGRAS DE BLOQUEIO POR PROFISSIONAL E DIA DA SEMANA ---
+      // Raila: Segunda-feira (1) bloqueia todos. Outros dias: remove 17:00.
+      if (prof === 'Raila') {
+        if (dayOfWeek === 1) return;
+        if (time === '17:00') return;
+      }
+      
+      // Assis: Terça-feira (2) bloqueia todos.
+      if (prof === 'Assis' && dayOfWeek === 2) return;
+      
+      // Luiza: Quarta-feira (3) bloqueia todos.
+      if (prof === 'Luiza' && dayOfWeek === 3) return;
+      // -------------------------------------------------------------
+
+      const isLunch = (prof === 'Raila') 
+          ? time === '13:00' 
+          : (time === '12:00' || time === '13:00');
+          
       const slotId = `${prof}-${time}`;
       
       const booking = dbAppointments.find(a => 
